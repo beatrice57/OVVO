@@ -1,0 +1,115 @@
+
+#!/bin/tcsh
+
+CS3="java -classpath $CSDIR/CS_2.003.04.jar csearch/CorpusSearch"
+
+for file in [01]*.psd
+
+do
+
+    BASE=`basename $file .psd`
+
+# np a inf
+    $CS3 mark-np-a-inf.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# np-prd
+    $CS3 mark-moved-np-prd.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-PRD-(CL-)NP, ZZZ-NP-PRD
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# np-acc
+    $CS3 mark-moved-np-acc.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-ACC-(CL-)NP, ZZZ-NP-ACC
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# np-dtv
+    $CS3 mark-moved-np-dtv.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-DTV-(CL-)NP, ZZZ-NP-DTV
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# ecm subjects
+    $CS3 mark-ecm-subject.q $BASE.psd -out $BASE.psd.out >& ERR
+    # ECM-(CL-)NP-SBJ
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    cat $BASE.psd | \
+    sed -e 's/ECM-\(CL-\)*NP-SBJ/\1NP-ECM-SBJ/g' > $BASE.psd.out
+    # (CL-)NP-ECM-SBJ
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    $CS3 mark-moved-np-ecm.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-ECM-(CL-)NP(-SBJ), ZZZ-NP-ECM-SBJ
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# mark bare PPs as XXX
+
+    $CS3 mark-bare-pp-as-xxx.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-arg
+    $CS3 mark-moved-pp-arg.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-ARG-PP, ZZZ-PP-ARG
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-dir
+    $CS3 mark-moved-pp-dir.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-DIR-PP, ZZZ-PP-DIR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-loc
+    $CS3 mark-moved-pp-loc.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-LOC-PP, ZZZ-PP-LOC
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-mod
+    cat $BASE.psd | \
+    sed -e 's/PP-ZZ /PP-MOD /g' > $BASE.psd.out
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    $CS3 mark-moved-pp-mod.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-MOD-PP, ZZZ-PP-MOD
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-msr
+    $CS3 mark-moved-pp-msr.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-MSR-PP, ZZZ-PP-MSR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-prd
+    $CS3 mark-moved-pp-prd.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-PRD-PP, ZZZ-PP-PRD
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-tmp
+    $CS3 mark-moved-pp-tmp.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-TMP-PP, ZZZ-PP-TMP
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# pp-xxx
+    $CS3 mark-moved-pp-xxx.q $BASE.psd -out $BASE.psd.out >& ERR
+    # MOVED-XXX-PP, ZZZ-PP-XXX
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    cat $BASE.psd | \
+    # NP-{ACC,DTV,ECM}-MOVED
+    sed -e 's/MOVED-ACC-\(CL-\)*NP/\1NP-ACC-MOVED/g' | \
+    sed -e 's/MOVED-DTV-\(CL-\)*NP/\1NP-DTV-MOVED/g' | \
+    sed -e 's/MOVED-ECM-\(CL-\)*NP/\1NP-ECM-MOVED/g' | \
+    sed -e 's/MOVED-PRD-\(CL-\)*NP/\1NP-PRD-MOVED/g' | \
+    # PP-{ARG,DIR,LOC,MOD,MSR,PRD,TMP,XXX}-MOVED
+    sed -e 's/MOVED-ARG-PP/PP-ARG-MOVED/g' | \
+    sed -e 's/MOVED-DIR-PP/PP-DIR-MOVED/g' | \
+    sed -e 's/MOVED-LOC-PP/PP-LOC-MOVED/g' | \
+    sed -e 's/MOVED-MOD-PP/PP-MOD-MOVED/g' | \
+    sed -e 's/MOVED-MSR-PP/PP-MSR-MOVED/g' | \
+    sed -e 's/MOVED-PRD-PP/PP-PRD-MOVED/g' | \
+    sed -e 's/MOVED-TMP-PP/PP-TMP-MOVED/g' | \
+    sed -e 's/MOVED-XXX-PP/PP-XXX-MOVED/g' | \
+    # next line deals with raised passive subjects
+    sed -e 's/\(CL-\)*NP-ECM-MOVED-SBJ/\1NP-SBJ/g' > $BASE.psd.out
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    /bin/cp -f $BASE.psd $BASE.psd.2
+
+done

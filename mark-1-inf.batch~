@@ -1,0 +1,52 @@
+
+#!/bin/tcsh
+
+CS3="java -classpath $CSDIR/CS_2.003.04.jar csearch/CorpusSearch"
+
+for file in test.psd
+# for file in [01]*.psd
+
+do
+
+    BASE=`basename $file .psd`
+
+# MOD
+    $CS3 mark-mod-1.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# MOD - conjunction
+    $CS3 mark-mod-2.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# ECM
+    $CS3 mark-ecm-1.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# ECM - gapping
+    $CS3 mark-ecm-2.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+#  ECM - conjunction - round 1 
+    $CS3 mark-ecm-3.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+#  ECM - conjunction - round 2 
+    $CS3 mark-ecm-3.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# ORD - elsewhere case
+    $CS3 mark-ord-1.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# ORD - conjunction - round 1
+    $CS3 mark-ord-2.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# ORD - conjunction - round 2
+    $CS3 mark-ord-2.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    /bin/cp -f $BASE.psd $BASE.psd.1
+
+done
+

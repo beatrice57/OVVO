@@ -1,0 +1,48 @@
+
+#!/bin/tcsh
+
+CS3="java -classpath $CSDIR/CS_2.003.04.jar csearch/CorpusSearch"
+
+for file in $*
+
+do
+
+    BASE=`basename $file .psd`
+
+# hide PP-LFD etc.
+
+    cat $BASE.psd | \
+    sed -e 's/(PP-LFD/(HIDE-PP-LFD/g' | \
+    sed -e 's/(PP-\([0-9][0-9]*\)/(HIDE-PP-\1/g' > $BASE.psd.out
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# mark PPs
+
+    $CS3 mark-first-pp-of-6.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    $CS3 mark-first-pp-of-5.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    $CS3 mark-first-pp-of-4.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    $CS3 mark-first-pp-of-3.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    $CS3 mark-first-pp-of-2.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    $CS3 mark-first-pp-of-1.q $BASE.psd -out $BASE.psd.out >& ERR
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+# restore PP-LFD etc.
+
+    cat $BASE.psd | \
+    sed -e 's/(HIDE-PP-/(PP-/g' > $BASE.psd.out
+    /bin/mv -f $BASE.psd.out $BASE.psd
+
+    /bin/cp -f $BASE.psd $BASE.psd.3
+
+done
+
