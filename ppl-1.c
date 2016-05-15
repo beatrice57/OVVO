@@ -170,7 +170,6 @@ coding_query:
 // DIRECT OBJECT
 // type
 10: {
-      -:         (IP-PPL* iDoms !acc|prd|movedAcc|movedPrd)
 // exclude dative subjects in ECM contexts
       -:         (IP-PPL* iDoms ECM-IP-INF*)  AND (ECM-IP-INF* iDomsMod NP-ECM-SBJ*|NP DAT)
 // exclude raised passive subjects in ECM contexts
@@ -311,7 +310,6 @@ coding_query:
 // INDIRECT OBJECT
 // type
 11: {
-      -:         (IP-PPL* iDoms !dtv|movedDtv)
 // include dative subjects in ECM contexts (see below)
 // exclude raised passive subjects in ECM contexts
       -:         (IP-PPL* iDoms *-SBJ*)  AND (IP-PPL* iDoms EG|EPP) 
@@ -410,7 +408,6 @@ coding_query:
 // FIRST PP
 // type of PP
 12: {  
-      -:       (IP-PPL* iDoms !firstPP|movedFirstPP)
 // trace
       #12:     (IP-PPL* iDomsMod MOD-IP-INF*|PARTP* firstPP) AND (firstPP iDoms \*T*)
 // monoclausal case without movement (including modal and PARTP cases)
@@ -459,7 +456,6 @@ coding_query:
 // FIRST PP
 // preposition is A or not
 13: {  
-      -:       (IP-PPL* iDoms !firstPP|movedFirstPP)
 // trace
       #13:     (IP-PPL* iDomsMod MOD-IP-INF*|PARTP* firstPP) AND (firstPP iDoms \*T*)
 // monoclausal case without movement (including modal and PARTP cases)
@@ -480,7 +476,6 @@ coding_query:
 // FIRST PP
 // type of complement
 14: {
-      -:         (IP-PPL* iDoms !firstPP|movedFirstPP)
 // trace
       #14:       (IP-PPL* iDomsMod MOD-IP-INF*|PARTP* firstPP) AND (firstPP iDoms \*T*)
 // monoclausal case without movement (including modal and PARTP cases)

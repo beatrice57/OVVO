@@ -164,7 +164,6 @@ coding_query:
 // type
 10: { 
       -:         (ECM-IP-INF* iDoms CONJP)
-      -:         (ECM-IP-INF* iDoms !acc|prd|movedAcc|movedPrd)
 // exclude dative subjects in ECM contexts
       -:         ([1]ECM-IP-INF* iDoms [2]ECM-IP-INF*)  AND ([2]ECM-IP-INF* iDomsMod NP-ECM-SBJ*|NP DAT)
 // exclude raised passive subjects in ECM contexts
@@ -306,7 +305,6 @@ coding_query:
 // type
 11: {  
       -:         (ECM-IP-INF* iDoms CONJP)
-      -:         (ECM-IP-INF* iDoms !dtv|movedDtv)
 // include dative subjects in ECM contexts (see below)
 // exclude raised passive subjects in ECM contexts
       -:         (ECM-IP-INF* iDoms *-SBJ*)  AND (ECM-IP-INF* iDoms EX|EPP) 
@@ -406,7 +404,6 @@ coding_query:
 // type of PP
 12: {  
       -:       (ECM-IP-INF* iDoms CONJP)
-      -:       (ECM-IP-INF* iDoms !firstPP|movedFirstPP)
 // trace
       #12:     (ECM-IP* iDomsMod MOD-IP-INF*|PARTP* firstPP) AND (firstPP iDoms \*T*)
 // monoclausal case without movement (including modal and PARTP cases)
@@ -456,7 +453,6 @@ coding_query:
 // preposition is A or not
 13: {  
       -:       (ECM-IP-INF* iDoms CONJP)
-      -:       (ECM-IP-INF* iDoms !firstPP|movedFirstPP)
 // trace
       #13:     (ECM-IP* iDomsMod MOD-IP-INF*|PARTP* firstPP) AND (firstPP iDoms \*T*)
 // monoclausal case without movement (including modal and PARTP cases)
@@ -479,7 +475,6 @@ coding_query:
 14: { 
       -:         (ECM-IP-INF* iDoms CONJP)
 // trace
-      -:         (ECM-IP-INF* iDoms !firstPP|movedFirstPP)
       #14:       (ECM-IP-INF* iDomsMod MOD-IP-INF*|PARTP* firstPP) AND (firstPP iDoms \*T*)
 // monoclausal case without movement (including modal and PARTP cases)
       o_Res:     (ECM-IP-INF* iDoms !movedFirstPP|movedInf) AND (ECM-IP-INF* iDomsMod MOD-IP-INF*|PARTP* FIRST-PP*RSP*)
